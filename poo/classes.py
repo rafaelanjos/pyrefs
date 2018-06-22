@@ -78,5 +78,5 @@ print(isinstance(johnnywalker, Bulldog))
 class SomeOtherBreed(Dog):
     species = 'reptile'
 
-beans = SomeOtherBreed()
+beans = SomeOtherBreed('Sussi', 3)
 print(beans.species)
