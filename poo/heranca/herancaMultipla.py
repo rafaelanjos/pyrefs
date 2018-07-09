@@ -27,24 +27,25 @@ class Relogio:
         else:
             self.seg += 1
 
+
 class Calendario:
 
-    __meses = (31,28,31,30,31,30,31,31,30,31,30,31)
+    __meses = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
     def __init__(self, dia, mes, ano):
         self.dia = dia
         self.mes = mes
         self.ano = ano
-    
-    def ajustar(self, dia, mes, ano):
+
+    def ajustar(self, dia: int, mes: int, ano: int):
         self.dia = dia
         self.mes = mes
         self.ano = ano
-    
+
     def __str__(self):
         return '{0:02d}/{1:02d}/{2:4d}'.format(self.dia, self.mes, self.ano)
 
-    def ultimo_dia_mes(self,mes=None):
+    def ultimo_dia_mes(self, mes=None):
         if mes != None:
             return self.__meses[mes-1]
         else:
@@ -61,21 +62,41 @@ class Calendario:
         else:
             self.dia += 1
 
+
+class CalendarioRelogio(Calendario, Relogio):
+
+
+    def __init__(self, hora, min, seg, dia, mes, ano):
+        Relogio.__init__(self, hora=hora, min=min, seg=seg)
+        Calendario.__init__(self, dia=dia, mes=mes, ano=ano)
+
+
+    def __str__(self):
+        return Relogio.__str__(self) + ' ' + Calendario.__str__(self)
+
+    def tick(self):
+        hora_anterior = self.hora
+        Relogio.tick(self)
+        if(hora_anterior == 23 and self.hora == 0):
+            self.avancar()
+
 if __name__ == '__main__':
 
-    #Exemplifica o uso do relogio
+    # Exemplifica o uso do relogio
     # relogio = Relogio(23,59,58)
     # for i in range(20):
     #     print(relogio)
     #     relogio.tick()
 
     # Exemplifica o uso do Calendario
-    calendario = Calendario(28,6,2018)
+    calendario = Calendario(28, 6, 2018)
     print('ultimo_dia_mes', calendario.ultimo_dia_mes())
     for i in range(10):
         print(calendario)
         calendario.avancar()
 
+    calendario.ajustar('', '', '')
     print('ultimo_dia_mes', calendario.ultimo_dia_mes())
 
-    #030 Herança Múltipla - Parte 1.mp4 - 12:46
+    # 030 Herança Múltipla - Parte 1.mp4 - 12:46
+    # 031 Kargs
